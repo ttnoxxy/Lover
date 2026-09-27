@@ -141,7 +141,7 @@ export const HistoryScreen = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col relative w-full px-4 py-2 z-10">
+      <div className="flex-grow flex flex-col relative w-full py-2 z-10">
         {!isOpen ? (
           <div className="w-full relative flex-grow flex justify-center items-center min-h-[400px]">
             <Swiper
