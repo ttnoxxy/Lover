@@ -62,24 +62,34 @@ export const HistoryScreen = () => {
 
   React.useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(() => {
+      let attempts = 0;
+      const interval = setInterval(() => {
         try {
-          if (flipBookRef.current && flipBookRef.current.pageFlip()) {
-            if (flipBookRef.current.pageFlip().getCurrentPageIndex() === 0) {
-              flipBookRef.current.pageFlip().flipNext();
+          const pf = flipBookRef.current?.pageFlip();
+          if (pf) {
+            if (pf.getCurrentPageIndex() === 0) {
+              pf.flipNext();
             }
+            clearInterval(interval);
           }
         } catch (e) {}
-      }, 150);
-      return () => clearTimeout(timer);
+        
+        attempts++;
+        if (attempts > 20) clearInterval(interval); // 2 seconds max
+      }, 100);
+      return () => clearInterval(interval);
     }
   }, [isOpen]);
 
-  const onFlip = (_e: any) => {
+  const onFlip = (e: any) => {
     try {
       const app = (WebApp as any)?.default || WebApp;
       if (app && app.ready && app.HapticFeedback) {
         app.HapticFeedback.impactOccurred('light');
+      }
+      
+      if (e.data === 0) {
+        setTimeout(() => setIsOpen(false), 400); // go back to shelf when closed
       }
     } catch (err) {}
   }
