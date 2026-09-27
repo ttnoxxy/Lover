@@ -8,7 +8,7 @@ import type { ReactSketchCanvasRef } from 'react-sketch-canvas'
 import * as Popover from '@radix-ui/react-popover'
 import { m, AnimatePresence } from 'framer-motion'
 import WebApp from '@twa-dev/sdk'
-import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, X } from '@phosphor-icons/react'
+import { Camera, Books, BookOpen, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, X } from '@phosphor-icons/react'
 
 const INITIAL_ALBUMS = [
   {
@@ -107,35 +107,42 @@ export const HistoryScreen = () => {
 
   return (
     <div className="w-full flex-grow flex flex-col font-ui relative">
-      {/* Header */}
-      <div className="h-16 flex items-center justify-between px-4 shrink-0 mt-2 z-10 relative">
-         <div className="flex flex-col">
-            {!isOpen ? (
-               <button className="w-10 h-10 rounded-full bg-white/70 text-[#431E1A] flex items-center justify-center shadow-sm">
-                 <Books className="w-5 h-5" weight="duotone" />
-               </button>
-            ) : (
-               <m.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="flex gap-2">
-                 <button onClick={handleCloseBook} className="w-10 h-10 rounded-full bg-white/70 text-[#431E1A] flex items-center justify-center shadow-sm transition hover:scale-105 active:scale-95">
-                   <BookOpen className="w-5 h-5" weight="fill" />
-                 </button>
-                 <button className="w-10 h-10 rounded-full bg-white/50 backdrop-blur-md text-[#4A2521] flex items-center justify-center shadow-sm transition hover:scale-105 active:scale-95">
-                   <SquaresFour className="w-5 h-5" weight="fill" />
-                 </button>
-               </m.div>
-            )}
-         </div>
-         <div className="flex flex-col items-center justify-center mt-1">
-            <AnimatePresence mode="wait">
-              <m.h1 key={activeAlbum.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="text-[24px] font-display font-bold text-[#1A1412] tracking-tight cursor-pointer leading-none">
-                {activeAlbum.title}
-              </m.h1>
-            </AnimatePresence>
-            <span className="text-xs font-medium text-[#6E5D53] flex items-center justify-center gap-1.5 mt-0.5">
-              {activeAlbum.pages?.length || 0} {(activeAlbum.pages?.length === 1) ? 'запись' : (activeAlbum.pages?.length >= 2 && activeAlbum.pages?.length <= 4) ? 'записи' : 'записей'}
-            </span>
-         </div>
-         <div className="w-10" />
+      {/* Header Capsule */}
+      <div className="w-full px-4 mt-2 mb-2 shrink-0 z-20 relative">
+        <div className="w-full h-[60px] bg-white rounded-full p-2 shadow-[0_10px_28px_rgba(35,23,20,0.06)] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center">
+              <div 
+                className="w-10 h-10 rounded-full overflow-hidden relative z-0 flex items-center justify-center shadow-inner transition-colors duration-300"
+                style={{ backgroundColor: activeAlbum.coverColor || '#DBCAB9' }}
+              >
+                {isOpen ? <BookOpen className="w-5 h-5 text-white/90" weight="fill" /> : <Books className="w-5 h-5 text-white/90" weight="duotone" />}
+              </div>
+            </div>
+            <div className="flex flex-col justify-center px-1">
+              <AnimatePresence mode="wait">
+                <m.span key={activeAlbum.id} initial={{ opacity: 0, y: 2 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -2 }} className="text-[14px] font-ui font-bold text-[#1A1412] leading-none mb-1">
+                  {activeAlbum.title}
+                </m.span>
+              </AnimatePresence>
+              <span className="text-[11px] font-ui font-medium text-[#8C7A6B] leading-none">
+                {activeAlbum.pages?.length || 0} {(activeAlbum.pages?.length === 1) ? 'запись' : (activeAlbum.pages?.length >= 2 && activeAlbum.pages?.length <= 4) ? 'записи' : 'записей'}
+              </span>
+            </div>
+          </div>
+          
+          {isOpen ? (
+            <button onClick={handleCloseBook} className="bg-[#4A2521] text-white h-10 px-4 rounded-full inline-flex items-center justify-center gap-1.5 hover:bg-[#3A1D1A] active:scale-95 transition-all shrink-0">
+              <span className="text-[13px] font-ui font-medium leading-none">Закрыть</span>
+              <X className="w-3.5 h-3.5 shrink-0" weight="bold" />
+            </button>
+          ) : (
+            <button onClick={handleAdd} className="bg-[#4A2521] text-white h-10 px-4 rounded-full inline-flex items-center justify-center gap-1.5 hover:bg-[#3A1D1A] active:scale-95 transition-all shrink-0">
+              <span className="text-[13px] font-ui font-medium leading-none">Создать</span>
+              <Plus className="w-3.5 h-3.5 shrink-0" weight="bold" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Main Content Area */}
