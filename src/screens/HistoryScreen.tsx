@@ -8,7 +8,7 @@ import type { ReactSketchCanvasRef } from 'react-sketch-canvas'
 import * as Popover from '@radix-ui/react-popover'
 import { m, AnimatePresence } from 'framer-motion'
 import WebApp from '@twa-dev/sdk'
-import { Camera, Books, BookOpen, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, X } from '@phosphor-icons/react'
+import { Camera, Books, BookOpen, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, X, MapPin } from '@phosphor-icons/react'
 
 const INITIAL_ALBUMS = [
   {
@@ -265,8 +265,8 @@ export const HistoryScreen = () => {
                       </div>
                       {/* Module 3: Chocolate Square */}
                       <div className="col-span-1 bg-[#431E1A] text-white rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_6px_20px_rgba(67,30,26,0.12)]" onClick={() => setSelectedPageId(page.id)}>
-                         <div className="text-[9px] uppercase tracking-[0.16em] text-white/60">КАДР</div>
-                         <div className="text-[36px] font-display font-bold leading-none my-auto">01</div>
+                         <div className="text-white/60 mt-1"><MapPin className="w-6 h-6" weight="fill" /></div>
+                         <div className="text-[14px] font-display font-bold leading-tight line-clamp-2 px-1 my-auto">{page.location || 'Патрики'}</div>
                          <div className="text-[10px] font-medium text-white/80">{page.date || '24 СЕН'}</div>
                       </div>
                     </React.Fragment>
@@ -276,8 +276,8 @@ export const HistoryScreen = () => {
                     <React.Fragment key={page.id}>
                       {/* Module A: Milky Square */}
                       <div className="col-span-1 bg-[#F5EFEA] border border-white/60 rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_4px_12px_rgba(67,30,26,0.03)]" onClick={() => setSelectedPageId(page.id)}>
-                         <div className="text-[9px] uppercase tracking-[0.15em] text-[#8C7A6B]">КАДР</div>
-                         <div className="text-[30px] font-display font-bold text-[#1A1412] my-auto">0{idx + 1}</div>
+                         <div className="text-[#8C7A6B] mt-1"><MapPin className="w-6 h-6" weight="fill" /></div>
+                         <div className="text-[14px] font-display font-bold text-[#1A1412] leading-tight line-clamp-2 px-1 my-auto">{page.location || 'Парк Горького'}</div>
                          <div className="bg-[#431E1A] text-white text-[9px] font-display font-bold px-2.5 py-0.5 rounded-full">{page.date || 'ДАТА'}</div>
                       </div>
                       {/* Module B: Photo Tile */}
