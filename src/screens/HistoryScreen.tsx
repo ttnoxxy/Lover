@@ -232,112 +232,42 @@ export const HistoryScreen = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             className="w-full flex-grow py-2"
           >
-            <div className="grid grid-cols-3 gap-3 auto-rows-auto">
+            <div className="grid grid-cols-3 gap-1.5 auto-rows-[120px]">
               {activeAlbum.pages.map((page: any, idx: number) => {
-                if (idx === 0) {
-                  return (
-                    <React.Fragment key={page.id}>
-                      {/* MAIN EVENT PHOTO */}
-                      <m.div 
-                        whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
-                        className="col-span-3 aspect-[4/3] rounded-[20px] overflow-hidden bg-[#F5EFEA] relative cursor-pointer group shadow-[0_6px_20px_rgba(67,30,26,0.06)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all"
-                        onClick={() => setSelectedPageId(page.id)}
-                      >
-                         {page.photo ? (
-                           <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105" alt="" />
-                         ) : (
-                           <div className="absolute inset-0 flex items-center justify-center">
-                             <span className="text-[#8C7A6B] text-[13px] font-medium px-4 py-2 bg-white rounded-[12px] shadow-sm">+ Загрузить фото</span>
-                           </div>
-                         )}
-                      </m.div>
-
-                      {/* MAIN EVENT DETAILS */}
-                      <m.div 
-                        whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
-                        className="col-span-3 bg-white rounded-[16px] p-4 flex flex-col gap-1 cursor-pointer group shadow-[0_4px_12px_rgba(67,30,26,0.03)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all"
-                        onClick={() => setSelectedPageId(page.id)}
-                      >
-                         <div className="flex justify-between items-center text-[12px] text-[#8C7A6B] font-medium transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
-                           <span>{page.date}</span>
-                           <span>{page.location || ''}</span>
-                         </div>
-                         <h3 className="text-[18px] font-display font-bold text-[#1A1412] mt-1 transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">{page.title}</h3>
-                         <p className="text-[14px] text-[#6E5D53] leading-snug mt-0.5 transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">{page.text}</p>
-                      </m.div>
-                    </React.Fragment>
-                  )
-                } else if (idx === 1) {
-                  return (
-                    <React.Fragment key={page.id}>
-                      {/* SECONDARY EVENT PHOTO */}
-                      <m.div 
-                        whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
-                        className="col-span-2 aspect-square rounded-[16px] overflow-hidden bg-white relative cursor-pointer group shadow-[0_4px_12px_rgba(67,30,26,0.03)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.08)] transition-all"
-                        onClick={() => setSelectedPageId(page.id)}
-                      >
-                         {page.photo ? (
-                           <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105" alt="" />
-                         ) : (
-                           <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA]">
-                             <span className="text-[#8C7A6B] text-[11px] font-medium px-3 py-1.5 bg-white rounded-[10px] shadow-sm">+ Фото</span>
-                           </div>
-                         )}
-                      </m.div>
-
-                      {/* SECONDARY EVENT RECEIPT/DATA */}
-                      <m.div 
-                        whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
-                        className="col-span-1 bg-[#F5EFEA] border border-white/60 rounded-[16px] p-3 flex flex-col justify-between cursor-pointer group shadow-[0_4px_12px_rgba(67,30,26,0.03)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.08)] transition-all"
-                        onClick={() => setSelectedPageId(page.id)}
-                      >
-                         <div className="text-[10px] text-[#8C7A6B] font-medium transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">{page.time || page.date}</div>
-                         <div>
-                           <div className="text-[13px] font-display font-bold text-[#1A1412] leading-tight transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
-                             {page.title}
-                           </div>
-                           <div className="text-[11px] text-[#6E5D53] mt-1 whitespace-pre-line leading-tight transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
-                             {page.text}
-                           </div>
-                         </div>
-                      </m.div>
-                    </React.Fragment>
-                  )
-                } else {
-                  return (
-                    <React.Fragment key={page.id}>
-                      {/* MINOR EVENT ROW */}
-                      <m.div 
-                        whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }}
-                        className="col-span-3 bg-white rounded-[16px] p-3 flex items-center gap-3 cursor-pointer group shadow-[0_4px_12px_rgba(67,30,26,0.02)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.08)] transition-all"
-                        onClick={() => setSelectedPageId(page.id)}
-                      >
-                         {page.photo ? (
-                           <div className="w-12 h-12 rounded-[12px] overflow-hidden shrink-0">
-                             <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105" alt="" />
-                           </div>
-                         ) : (
-                           <div className="w-12 h-12 rounded-[12px] bg-[#F5EFEA] flex items-center justify-center shrink-0">
-                             <div className="w-2 h-2 rounded-full bg-[#DBCAB9]" />
-                           </div>
-                         )}
-                         <div className="flex-grow transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
-                           <h3 className="text-[15px] font-display font-bold text-[#1A1412]">{page.title}</h3>
-                           <p className="text-[12px] text-[#6E5D53] line-clamp-1 mt-0.5">{page.text}</p>
-                         </div>
-                         <div className="text-[10px] text-[#8C7A6B] font-medium shrink-0 transform transition-transform duration-300 group-hover:-translate-x-1 group-active:-translate-x-1">
-                           {page.time || page.date}
-                         </div>
-                      </m.div>
-                    </React.Fragment>
-                  )
-                }
+                // Bento layout pattern: cycle through sizes
+                const patterns = [
+                  'col-span-3 row-span-2',   // wide hero
+                  'col-span-2 row-span-2',   // large square
+                  'col-span-1 row-span-1',   // small square
+                  'col-span-1 row-span-2',   // tall vertical
+                  'col-span-2 row-span-1',   // wide short
+                  'col-span-1 row-span-1',   // small
+                  'col-span-3 row-span-1',   // full width strip
+                ]
+                const pattern = patterns[idx % patterns.length]
+                
+                return (
+                  <m.div 
+                    key={page.id}
+                    whileTap={{ scale: 0.97 }}
+                    className={`${pattern} rounded-[16px] overflow-hidden bg-[#F5EFEA] relative cursor-pointer group transition-all`}
+                    onClick={() => setSelectedPageId(page.id)}
+                  >
+                    {page.photo ? (
+                      <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105" alt="" />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Plus className="w-5 h-5 text-[#DBCAB9]" weight="bold" />
+                      </div>
+                    )}
+                  </m.div>
+                )
               })}
             </div>
-            {/* Add Moment Button */}
-            <div className="col-span-3 flex justify-center pt-2 pb-1">
+            {/* Add Photo Button */}
+            <div className="flex justify-center pt-3 pb-1">
               <button onClick={handleAdd} className="bg-[#F5EFEA] hover:bg-white text-[#1A1412] text-[13px] font-semibold px-6 py-3 rounded-[16px] shadow-[0_4px_14px_rgba(35,23,20,0.06)] flex items-center gap-2 transition active:scale-95">
-                <Plus className="w-4 h-4" weight="bold" /> Добавить момент
+                <Plus className="w-4 h-4" weight="bold" /> Добавить фото
               </button>
             </div>
           </m.div>
