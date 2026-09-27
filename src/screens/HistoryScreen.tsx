@@ -106,7 +106,7 @@ export const HistoryScreen = () => {
   const selectedPage = activeAlbum.pages.find((p: any) => p.id === selectedPageId)
 
   return (
-    <div className="w-full flex-grow flex flex-col font-sans relative">
+    <div className="w-full flex-grow flex flex-col font-ui relative">
       {/* Header */}
       <div className="h-16 flex items-center justify-between px-4 shrink-0 mt-2 z-10 relative">
          <div className="flex flex-col">
@@ -127,7 +127,7 @@ export const HistoryScreen = () => {
          </div>
          <div className="flex flex-col items-center justify-center mt-1">
             <AnimatePresence mode="wait">
-              <m.h1 key={activeAlbum.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="text-[22px] font-bold text-[#1A1412] tracking-tight cursor-pointer leading-none">
+              <m.h1 key={activeAlbum.id} initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="text-[24px] font-display font-bold text-[#1A1412] tracking-tight cursor-pointer leading-none">
                 {activeAlbum.title}
               </m.h1>
             </AnimatePresence>
@@ -177,7 +177,7 @@ export const HistoryScreen = () => {
                            <img src={coverPhoto} className="w-full h-full object-cover" alt="" />
                          ) : (
                            <div className="w-full h-full pt-14 px-5 text-center flex flex-col items-center">
-                             <h2 className="text-white text-[22px] font-serif tracking-wide leading-tight px-2">{album.title}</h2>
+                             <h2 className="text-white text-[22px] font-display tracking-wide leading-tight px-2">{album.title}</h2>
                            </div>
                          )}
                       </div>
@@ -244,7 +244,7 @@ export const HistoryScreen = () => {
                              <span className="text-[#8C7A6B] text-xs font-semibold px-4 py-2 bg-white rounded-full shadow-sm">+ Загрузить фото</span>
                            </div>
                          )}
-                         <div className="absolute top-3 right-3 bg-[#431E1A]/85 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full z-10">
+                         <div className="absolute top-3 right-3 bg-[#431E1A]/85 backdrop-blur-md text-white text-[10px] font-display font-bold px-3 py-1 rounded-full z-10">
                            {page.date || '24 СЕН'}
                          </div>
                       </div>
@@ -252,14 +252,14 @@ export const HistoryScreen = () => {
                       <div className="col-span-2 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] flex flex-col justify-between text-left cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
                          <div>
                            <div className="text-[11px] font-medium text-[#8C7A6B]">Момент №1</div>
-                           <h3 className="text-[17px] font-bold text-[#1A1412] leading-tight mt-1">{page.title || 'Новая запись'}</h3>
+                           <h3 className="text-[17px] font-display font-bold text-[#1A1412] leading-tight mt-1">{page.title || 'Новая запись'}</h3>
                          </div>
                          <p className="text-[12px] text-[#6E5D53] leading-snug mt-1.5 line-clamp-2">{page.text || 'Нажмите, чтобы добавить описание к этому моменту...'}</p>
                       </div>
                       {/* Module 3: Chocolate Square */}
                       <div className="col-span-1 bg-[#431E1A] text-white rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_6px_20px_rgba(67,30,26,0.12)]" onClick={() => setSelectedPageId(page.id)}>
                          <div className="text-[9px] uppercase tracking-[0.16em] text-white/60">КАДР</div>
-                         <div className="text-[32px] font-bold leading-none my-auto">01</div>
+                         <div className="text-[36px] font-display font-bold leading-none my-auto">01</div>
                          <div className="text-[10px] font-medium text-white/80">{page.date || '24 СЕН'}</div>
                       </div>
                     </React.Fragment>
@@ -270,8 +270,8 @@ export const HistoryScreen = () => {
                       {/* Module A: Milky Square */}
                       <div className="col-span-1 bg-[#F5EFEA] border border-white/60 rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_4px_12px_rgba(67,30,26,0.03)]" onClick={() => setSelectedPageId(page.id)}>
                          <div className="text-[9px] uppercase tracking-[0.15em] text-[#8C7A6B]">КАДР</div>
-                         <div className="text-[28px] font-bold text-[#1A1412] my-auto">0{idx + 1}</div>
-                         <div className="bg-[#431E1A] text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full">{page.date || 'ДАТА'}</div>
+                         <div className="text-[30px] font-display font-bold text-[#1A1412] my-auto">0{idx + 1}</div>
+                         <div className="bg-[#431E1A] text-white text-[9px] font-display font-bold px-2.5 py-0.5 rounded-full">{page.date || 'ДАТА'}</div>
                       </div>
                       {/* Module B: Photo Tile */}
                       <div className="col-span-2 aspect-[4/3] rounded-[24px] overflow-hidden bg-white shadow-[0_6px_20px_rgba(67,30,26,0.06)] relative cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
@@ -286,7 +286,7 @@ export const HistoryScreen = () => {
                       {/* Module C: White Wide Text Tile */}
                       <div className="col-span-3 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] flex items-center justify-between gap-3 text-left cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
                          <div className="flex-grow">
-                           <h3 className="text-[15px] font-bold text-[#1A1412]">{page.title || 'Новая запись'}</h3>
+                           <h3 className="text-[15px] font-display font-bold text-[#1A1412]">{page.title || 'Новая запись'}</h3>
                            <p className="text-[12px] text-[#6E5D53] mt-0.5 line-clamp-1">{page.text || 'Нажмите, чтобы добавить описание...'}</p>
                          </div>
                          <div className="w-8 h-8 rounded-full bg-[#F5EFEA] flex items-center justify-center text-[#431E1A] shrink-0">
@@ -319,9 +319,9 @@ export const HistoryScreen = () => {
               className="bg-white rounded-[28px] p-4 shadow-[0_10px_40px_rgba(67,30,26,0.1)] w-full max-w-xs mx-auto space-y-3"
             >
               <div className="flex bg-[#F5EBE4] rounded-full p-1 relative">
-                 <button onClick={() => setActiveTab('draw')} className={`flex-1 text-[11px] font-bold py-1.5 rounded-full transition ${activeTab === 'draw' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Рисунок</button>
-                 <button onClick={() => setActiveTab('color')} className={`flex-1 text-[11px] font-bold py-1.5 rounded-full transition ${activeTab === 'color' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Цвет</button>
-                 <button onClick={() => setActiveTab('name')} className={`flex-1 text-[11px] font-bold py-1.5 rounded-full transition ${activeTab === 'name' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Название</button>
+                 <button onClick={() => setActiveTab('draw')} className={`flex-1 text-[11px] font-display font-bold py-1.5 rounded-full transition ${activeTab === 'draw' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Рисунок</button>
+                 <button onClick={() => setActiveTab('color')} className={`flex-1 text-[11px] font-display font-bold py-1.5 rounded-full transition ${activeTab === 'color' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Цвет</button>
+                 <button onClick={() => setActiveTab('name')} className={`flex-1 text-[11px] font-display font-bold py-1.5 rounded-full transition ${activeTab === 'name' ? 'bg-white text-[#431E1A] shadow-sm' : 'text-[#8C7A6B]'}`}>Название</button>
               </div>
 
               {activeTab === 'draw' && (
@@ -356,7 +356,7 @@ export const HistoryScreen = () => {
                     type="text" 
                     value={activeAlbum.title}
                     onChange={(e) => updateAlbum(activeAlbum.id, { title: e.target.value })}
-                    className="w-full bg-[#F5EBE4] text-[#1A1412] font-bold text-sm rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-[#DBCAB9]"
+                    className="w-full bg-[#F5EBE4] text-[#1A1412] font-display font-bold text-sm rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-[#DBCAB9]"
                     placeholder="Название альбома..."
                   />
                 </div>
@@ -386,7 +386,7 @@ export const HistoryScreen = () => {
                   </button>
                 </Popover.Trigger>
                 <Popover.Portal>
-                  <Popover.Content sideOffset={8} className="bg-white px-3 py-2 rounded-[10px] shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-[11px] font-bold text-[#231714] z-50 flex flex-col gap-2 items-center">
+                  <Popover.Content sideOffset={8} className="bg-white px-3 py-2 rounded-[10px] shadow-[0_10px_30px_rgba(0,0,0,0.1)] text-[11px] font-display font-bold text-[#231714] z-50 flex flex-col gap-2 items-center">
                     <span>Удалить этот альбом?</span>
                     <button onClick={handleDelete} className="bg-[#A44A3F] text-white px-3 py-1.5 rounded-md w-full hover:bg-red-700">Удалить</button>
                     <Popover.Arrow className="fill-white" />
@@ -414,7 +414,7 @@ export const HistoryScreen = () => {
               className="bg-white rounded-[28px] p-5 shadow-2xl flex flex-col space-y-4 max-h-[85vh] overflow-y-auto"
             >
                <div className="flex justify-between items-center mb-2">
-                 <h3 className="text-[17px] font-bold text-[#1A1412]">Момент</h3>
+                 <h3 className="text-[17px] font-display font-bold text-[#1A1412]">Момент</h3>
                  <button onClick={() => setSelectedPageId(null)} className="w-8 h-8 rounded-full bg-[#F5EFEA] flex items-center justify-center text-[#1A1412] hover:bg-[#EAE2D5] transition">
                    <X weight="bold" />
                  </button>
@@ -431,11 +431,11 @@ export const HistoryScreen = () => {
 
                <div className="space-y-3">
                  <div>
-                   <input type="text" value={selectedPage.title} onChange={e => updatePage(selectedPage.id, { title: e.target.value })} className="w-full bg-[#F5EFEA] text-[#1A1412] font-bold rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-[#DBCAB9]" placeholder="Заголовок" />
+                   <input type="text" value={selectedPage.title} onChange={e => updatePage(selectedPage.id, { title: e.target.value })} className="w-full bg-[#F5EFEA] text-[#1A1412] font-display font-bold rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-[#DBCAB9]" placeholder="Заголовок" />
                  </div>
                  
                  <div>
-                   <input type="text" value={selectedPage.date} onChange={e => updatePage(selectedPage.id, { date: e.target.value })} className="w-full bg-[#F5EFEA] text-[#1A1412] font-bold rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-[#DBCAB9]" placeholder="Дата (например, 24 СЕН)" />
+                   <input type="text" value={selectedPage.date} onChange={e => updatePage(selectedPage.id, { date: e.target.value })} className="w-full bg-[#F5EFEA] text-[#1A1412] font-display font-bold rounded-xl p-3.5 outline-none focus:ring-2 focus:ring-[#DBCAB9]" placeholder="Дата (например, 24 СЕН)" />
                  </div>
 
                  <div>
@@ -444,7 +444,7 @@ export const HistoryScreen = () => {
                </div>
 
                <div className="pt-2">
-                  <button onClick={() => handleDeletePage(selectedPage.id)} className="w-full py-3.5 rounded-xl bg-[#A44A3F]/10 text-[#A44A3F] font-bold flex items-center justify-center gap-2 hover:bg-[#A44A3F]/20 transition">
+                  <button onClick={() => handleDeletePage(selectedPage.id)} className="w-full py-3.5 rounded-xl bg-[#A44A3F]/10 text-[#A44A3F] font-display font-bold flex items-center justify-center gap-2 hover:bg-[#A44A3F]/20 transition">
                     <Trash weight="bold" className="w-5 h-5" /> Удалить момент
                   </button>
                </div>
