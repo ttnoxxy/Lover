@@ -177,9 +177,7 @@ export const HistoryScreen = () => {
                            <img src={coverPhoto} className="w-full h-full object-cover" alt="" />
                          ) : (
                            <div className="w-full h-full pt-14 px-5 text-center flex flex-col items-center">
-                             <div className="bg-white/90 backdrop-blur px-4 py-2 rounded-xl shadow-sm">
-                               <h2 className="text-[#1A1412] text-[18px] font-bold tracking-tight leading-tight">{album.title}</h2>
-                             </div>
+                             <h2 className="text-white text-[22px] font-serif tracking-wide leading-tight px-2">{album.title}</h2>
                            </div>
                          )}
                       </div>
