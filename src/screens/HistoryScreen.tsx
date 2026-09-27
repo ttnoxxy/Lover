@@ -139,9 +139,9 @@ export const HistoryScreen = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col justify-center items-center relative w-full px-4 overflow-hidden py-2 z-10">
+      <div className="flex-grow flex flex-col relative w-full px-4 py-2 z-10 overflow-hidden">
         {!isOpen ? (
-          <div className="w-full relative h-[310px]">
+          <div className="w-full relative h-[310px] flex justify-center items-center mt-8">
             <Swiper
               effect="coverflow"
               grabCursor={true}
@@ -228,7 +228,8 @@ export const HistoryScreen = () => {
           <m.div 
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="w-full flex-grow overflow-y-auto px-1 py-2 max-h-[60vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            className="w-full h-0 flex-grow overflow-y-auto px-1 py-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            style={{ maskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%)' }}
           >
             <div className="grid grid-cols-3 gap-2.5 auto-rows-auto">
               {activeAlbum.pages.map((page: any, idx: number) => {
