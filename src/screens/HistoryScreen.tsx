@@ -148,7 +148,7 @@ export const HistoryScreen = () => {
       {/* Main Content Area */}
       <div className="flex-grow flex flex-col relative w-full px-4 py-2 z-10">
         {!isOpen ? (
-          <div className="w-full relative h-[310px] flex justify-center items-center mt-8">
+          <div className="w-full relative flex-grow flex justify-center items-center min-h-[400px]">
             <Swiper
               effect="coverflow"
               grabCursor={true}
@@ -169,28 +169,28 @@ export const HistoryScreen = () => {
               {albums.map((album, idx) => {
                 const coverPhoto = album.pages.find((p: any) => p.photo)?.photo;
                 return (
-                  <SwiperSlide key={album.id} style={{ width: 216, height: 290 }} className="!overflow-visible">
+                  <SwiperSlide key={album.id} style={{ width: 270, height: 370 }} className="!overflow-visible">
                     <div 
                       onClick={handleOpenBook}
-                      className="w-[216px] h-[290px] rounded-r-[18px] rounded-l-[4px] overflow-hidden relative shadow-[0_20px_38px_-8px_rgba(67,30,26,0.28)] transition-transform duration-300 border-y border-r border-black/5 cursor-pointer flex" 
+                      className="w-[270px] h-[370px] rounded-r-[24px] rounded-l-[4px] overflow-hidden relative shadow-[0_25px_45px_-10px_rgba(67,30,26,0.35)] transition-transform duration-300 border-y border-r border-black/5 cursor-pointer flex" 
                       style={{ backgroundColor: activeIndex === idx ? album.coverColor : '#EAE2D5', transform: activeIndex === idx ? 'scale(1)' : 'scale(0.92)' }}
                     >
                       {/* Fabric Spine */}
-                      <div className="w-[20px] h-full bg-black/25 border-r border-black/20 shrink-0 shadow-[inset_-2px_0_5px_rgba(0,0,0,0.25)] relative z-30" />
+                      <div className="w-[24px] h-full bg-black/25 border-r border-black/20 shrink-0 shadow-[inset_-2px_0_5px_rgba(0,0,0,0.25)] relative z-30" />
                       
                       {/* Cover Content */}
-                      <div className="absolute inset-0 pl-[20px] z-10">
+                      <div className="absolute inset-0 pl-[24px] z-10">
                          {coverPhoto ? (
                            <img src={coverPhoto} className="w-full h-full object-cover" alt="" />
                          ) : (
                            <div className="w-full h-full pt-14 px-5 text-center flex flex-col items-center">
-                             <h2 className="text-white text-[24px] font-display tracking-wide leading-tight px-2">{album.title}</h2>
+                             <h2 className="text-white text-[28px] font-display tracking-wide leading-tight px-2">{album.title}</h2>
                            </div>
                          )}
                       </div>
 
                       {/* Drawing Canvas */}
-                      <div className="absolute inset-0 pl-[20px] z-30 pointer-events-none">
+                      <div className="absolute inset-0 pl-[24px] z-30 pointer-events-none">
                          <ReactSketchCanvas
                             ref={activeIndex === idx ? canvasRef : null}
                             strokeWidth={strokeWidth}
