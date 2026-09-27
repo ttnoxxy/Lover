@@ -238,53 +238,67 @@ export const HistoryScreen = () => {
         ) : (
           <div className="w-full flex items-center justify-center px-3 overflow-visible">
             {/* @ts-ignore */}
-            <HTMLFlipBook 
+                        <HTMLFlipBook 
               width={160} height={220} size="fixed" usePortrait={false} showCover={true} 
               flippingTime={600} maxShadowOpacity={0.18} drawShadow={true} onFlip={onFlip}
               className="shadow-2xl" ref={flipBookRef}
             >
               <Page>
-                <div className="w-full h-full rounded-r-[16px] border-y-[3px] border-r-[3px] border-l-0 overflow-hidden relative flex" style={{ backgroundColor: activeAlbum.coverColor, borderColor: activeAlbum.coverColor }}>
-                   <div className="w-5 h-full bg-black/20 border-r border-black/20 shrink-0 shadow-[inset_-2px_0_4px_rgba(0,0,0,0.2)]" />
-                   <div className="absolute inset-0 pt-9 px-5 text-center">
-                      <h2 className="text-white text-[20px] font-bold">{activeAlbum.title}</h2>
+                <div className="w-full h-full rounded-r-[16px] border-y border-r border-[#000000]/10 overflow-hidden relative flex shadow-[inset_0_0_15px_rgba(0,0,0,0.1)]" style={{ backgroundColor: activeAlbum.coverColor }}>
+                   <div className="w-5 h-full bg-black/15 border-r border-black/20 shrink-0 shadow-[inset_-2px_0_5px_rgba(0,0,0,0.25)]" />
+                   <div className="absolute inset-0 pt-14 px-6 flex flex-col items-center">
+                      <h2 className="text-white text-[22px] font-serif tracking-wide text-center leading-tight">{activeAlbum.title}</h2>
                    </div>
+                   {/* Moleskine elastic band */}
+                   <div className="absolute top-0 bottom-0 right-[14px] w-[8px] bg-black/25 shadow-[inset_1px_0_3px_rgba(0,0,0,0.35)] z-10" />
                 </div>
               </Page>
 
               {activeAlbum.pages.flatMap((page, idx) => [
                   <Page key={page.id + '-left'}>
-                    <div className="w-full h-full bg-[#FAF6F0] rounded-l-[16px] border-y-[3px] border-l-[3px] border-r-0 relative flex flex-col p-3 pb-4" style={{ borderColor: activeAlbum.coverColor }}>
-                      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/[0.07] via-black/[0.02] to-transparent pointer-events-none z-10" />
-                      <div className="flex-grow w-full rounded-[12px] bg-[#EBE0D5] overflow-hidden relative shadow-inner aspect-[4/4.2]">
-                        {page.photo ? (
-                          <img src={page.photo} className="w-full h-full object-cover" alt="" />
-                        ) : (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Camera className="w-6 h-6 text-[#8C7A6B]" weight="fill" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="text-center mt-2 text-[11px] font-semibold text-[#8C7A6B]">
-                        {page.date || 'Новое'}
-                      </div>
+                    <div className="w-full h-full bg-[#F7F4EE] rounded-l-[16px] border-y border-l border-[#E2D8CC] border-r-0 relative flex flex-col overflow-hidden">
+                      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/[0.12] to-transparent pointer-events-none z-10" />
+                      {page.photo ? (
+                        <img src={page.photo} className="w-full h-full object-cover filter contrast-[1.05] sepia-[0.05]" alt="" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#F2ECE4]">
+                          <Camera className="w-8 h-8 text-[#8C7A6B]/50" weight="light" />
+                        </div>
+                      )}
                     </div>
                   </Page>,
                   <Page key={page.id + '-right'}>
-                    <div className="w-full h-full bg-[#FAF6F0] rounded-r-[16px] border-y-[3px] border-r-[3px] border-l-0 relative flex flex-col p-4" style={{ borderColor: activeAlbum.coverColor }}>
-                      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/[0.07] via-black/[0.02] to-transparent pointer-events-none z-10" />
-                      <h3 className="text-[15px] font-bold text-[#1A1412] leading-tight">{page.title || 'Без названия'}</h3>
-                      <p className="text-xs text-[#8C7A6B] mt-2 leading-relaxed">{page.text || 'Нажмите, чтобы добавить описание...'}</p>
-                      <div className="mt-auto text-right text-[11px] font-semibold text-[#8C7A6B]">
-                        {idx + 1} / {activeAlbum.pages.length}
+                    <div className="w-full h-full bg-[#F7F4EE] rounded-r-[16px] border-y border-r border-[#E2D8CC] border-l-0 relative flex flex-col p-5">
+                      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/[0.12] to-transparent pointer-events-none z-10" />
+                      
+                      <div className="flex-grow flex flex-col pt-3">
+                        <textarea 
+                          value={page.title || ''} 
+                          onChange={(e) => updateAlbum(activeAlbum.id, { pages: activeAlbum.pages.map((p: any) => p.id === page.id ? { ...p, title: e.target.value } : p) })}
+                          className="bg-transparent text-[17px] font-serif text-[#1A1412] leading-tight mb-2 outline-none w-full resize-none h-[48px] placeholder-[#1A1412]/30" 
+                          placeholder="Название записи"
+                        />
+                        <textarea 
+                          value={page.text || ''} 
+                          onChange={(e) => updateAlbum(activeAlbum.id, { pages: activeAlbum.pages.map((p: any) => p.id === page.id ? { ...p, text: e.target.value } : p) })}
+                          className="bg-transparent text-[11px] font-mono text-[#6E5D53] leading-relaxed tracking-wide lowercase outline-none w-full resize-none flex-grow placeholder-[#6E5D53]/40" 
+                          placeholder="нажмите, чтобы добавить описание..."
+                        />
+                      </div>
+                      
+                      <div className="mt-auto flex justify-between items-center text-[9px] font-mono font-bold text-[#8C7A6B]/60 uppercase tracking-widest border-t border-[#8C7A6B]/15 pt-3">
+                        <span>{page.date || 'ДАТА'}</span>
+                        <span>{idx + 1} / {activeAlbum.pages.length}</span>
                       </div>
                     </div>
                   </Page>
               ])}
 
               <Page>
-                <div className="w-full h-full rounded-l-[16px] border-y-[3px] border-l-[3px] border-r-0 overflow-hidden relative" style={{ backgroundColor: activeAlbum.coverColor, borderColor: activeAlbum.coverColor }}>
-                   <div className="absolute right-0 top-0 bottom-0 w-5 bg-black/20 border-l border-black/20 shadow-[inset_2px_0_4px_rgba(0,0,0,0.2)]" />
+                <div className="w-full h-full rounded-l-[16px] border-y border-l border-[#000000]/10 overflow-hidden relative shadow-[inset_0_0_15px_rgba(0,0,0,0.1)]" style={{ backgroundColor: activeAlbum.coverColor }}>
+                   <div className="absolute right-0 top-0 bottom-0 w-5 bg-black/15 border-l border-black/20 shadow-[inset_2px_0_5px_rgba(0,0,0,0.25)]" />
+                   {/* Back Moleskine elastic band */}
+                   <div className="absolute top-0 bottom-0 left-[14px] w-[8px] bg-black/25 shadow-[inset_-1px_0_3px_rgba(0,0,0,0.35)] z-10" />
                 </div>
               </Page>
             </HTMLFlipBook>
