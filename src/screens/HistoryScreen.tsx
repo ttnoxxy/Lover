@@ -139,7 +139,7 @@ export const HistoryScreen = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col relative w-full px-4 py-2 z-10 overflow-hidden">
+      <div className="flex-grow flex flex-col relative w-full px-4 py-2 z-10">
         {!isOpen ? (
           <div className="w-full relative h-[310px] flex justify-center items-center mt-8">
             <Swiper
@@ -177,7 +177,7 @@ export const HistoryScreen = () => {
                            <img src={coverPhoto} className="w-full h-full object-cover" alt="" />
                          ) : (
                            <div className="w-full h-full pt-14 px-5 text-center flex flex-col items-center">
-                             <h2 className="text-white text-[22px] font-display tracking-wide leading-tight px-2">{album.title}</h2>
+                             <h2 className="text-white text-[24px] font-display tracking-wide leading-tight px-2">{album.title}</h2>
                            </div>
                          )}
                       </div>
@@ -228,8 +228,7 @@ export const HistoryScreen = () => {
           <m.div 
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="w-full h-0 flex-grow overflow-y-auto px-1 py-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            style={{ maskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 95%, transparent 100%)' }}
+            className="w-full flex-grow px-1 py-2"
           >
             <div className="grid grid-cols-3 gap-2.5 auto-rows-auto">
               {activeAlbum.pages.map((page: any, idx: number) => {
