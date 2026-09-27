@@ -40,7 +40,7 @@ const BRUSH_WIDTHS = [3, 6, 14]
 
 const Page = React.forwardRef<HTMLDivElement, any>((props, ref) => {
   return (
-    <div className="bg-[#FAF6F0]" ref={ref} data-density="hard">
+    <div ref={ref} data-density="hard">
       {props.children}
     </div>
   )
@@ -59,6 +59,21 @@ export const HistoryScreen = () => {
   const activeAlbum = albums[activeIndex] || albums[0] || { pages: [] }
   const canvasRef = useRef<ReactSketchCanvasRef>(null)
   const flipBookRef = useRef<any>(null)
+
+  React.useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        try {
+          if (flipBookRef.current && flipBookRef.current.pageFlip()) {
+            if (flipBookRef.current.pageFlip().getCurrentPageIndex() === 0) {
+              flipBookRef.current.pageFlip().flipNext();
+            }
+          }
+        } catch (e) {}
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const onFlip = (_e: any) => {
     try {
