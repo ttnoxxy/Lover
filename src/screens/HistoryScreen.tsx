@@ -106,7 +106,7 @@ export const HistoryScreen = () => {
   const selectedPage = activeAlbum.pages.find((p: any) => p.id === selectedPageId)
 
   return (
-    <div className="w-full h-screen bg-[#F5EBE4] flex flex-col font-sans overflow-hidden relative">
+    <div className="w-full flex-grow flex flex-col font-sans relative">
       {/* Header */}
       <div className="h-16 flex items-center justify-between px-4 shrink-0 mt-2 z-10 relative">
          <div className="flex flex-col">
@@ -228,7 +228,7 @@ export const HistoryScreen = () => {
           <m.div 
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="w-full flex-grow overflow-y-auto no-scrollbar px-1 py-2 max-h-[60vh]"
+            className="w-full flex-grow overflow-y-auto px-1 py-2 max-h-[60vh] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             <div className="grid grid-cols-3 gap-2.5 auto-rows-auto">
               {activeAlbum.pages.map((page: any, idx: number) => {
