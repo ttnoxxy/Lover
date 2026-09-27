@@ -230,7 +230,7 @@ export const HistoryScreen = () => {
           <m.div 
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            className="w-full flex-grow px-3 py-2"
+            className="w-full flex-grow py-2"
           >
             <div className="grid grid-cols-3 gap-3 auto-rows-auto">
               {activeAlbum.pages.map((page: any, idx: number) => {

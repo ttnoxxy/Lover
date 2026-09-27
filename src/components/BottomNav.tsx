@@ -10,7 +10,7 @@ export const TABS = [
 
 export const BottomNav = ({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (id: string) => void }) => {
   return (
-    <div className="sticky bottom-6 mt-auto w-full z-50 shrink-0">
+    <div className="sticky bottom-6 mt-auto w-full z-50 shrink-0 px-4">
       <div className="w-full h-[60px] bg-white/95 backdrop-blur-xl rounded-full p-2 shadow-[0_10px_40px_rgba(35,23,20,0.1)] flex items-center justify-between shrink-0 overflow-hidden">
         {TABS.map((tab) => {
           const isActive = activeTab === tab.id
