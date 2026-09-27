@@ -234,29 +234,27 @@ export const HistoryScreen = () => {
           >
             <div className="grid grid-cols-3 gap-1.5 auto-rows-[120px]">
               {activeAlbum.pages.map((page: any, idx: number) => {
-                // Bento layout pattern: cycle through sizes
-                const patterns = [
-                  'col-span-3 row-span-2',   // wide hero
-                  'col-span-2 row-span-2',   // large square
-                  'col-span-1 row-span-1',   // small square
-                  'col-span-1 row-span-2',   // tall vertical
-                  'col-span-2 row-span-1',   // wide short
-                  'col-span-1 row-span-1',   // small
-                  'col-span-3 row-span-1',   // full width strip
-                ]
-                const pattern = patterns[idx % patterns.length]
+                const mod = idx % 7
+                const span = 
+                  mod === 0 ? 'col-span-3 row-span-2' :
+                  mod === 1 ? 'col-span-2 row-span-2' :
+                  mod === 2 ? 'col-span-1 row-span-1' :
+                  mod === 3 ? 'col-span-1 row-span-2' :
+                  mod === 4 ? 'col-span-2 row-span-1' :
+                  mod === 5 ? 'col-span-1 row-span-1' :
+                              'col-span-3 row-span-1'
                 
                 return (
                   <m.div 
                     key={page.id}
                     whileTap={{ scale: 0.97 }}
-                    className={`${pattern} rounded-[16px] overflow-hidden bg-[#F5EFEA] relative cursor-pointer group transition-all`}
+                    className={`${span} rounded-[16px] overflow-hidden bg-[#F5EFEA] relative cursor-pointer group transition-all`}
                     onClick={() => setSelectedPageId(page.id)}
                   >
                     {page.photo ? (
                       <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105" alt="" />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA]">
                         <Plus className="w-5 h-5 text-[#DBCAB9]" weight="bold" />
                       </div>
                     )}
