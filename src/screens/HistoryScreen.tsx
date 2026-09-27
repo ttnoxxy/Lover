@@ -127,9 +127,8 @@ export const HistoryScreen = () => {
           </div>
           
           {isOpen ? (
-            <button onClick={handleCloseBook} className="bg-[#4A2521] text-white h-10 px-4 rounded-full inline-flex items-center justify-center gap-1.5 hover:bg-[#3A1D1A] active:scale-95 transition-all shrink-0">
-              <span className="text-[13px] font-ui font-medium leading-none">Закрыть</span>
-              <X className="w-3.5 h-3.5 shrink-0" weight="bold" />
+            <button onClick={handleCloseBook} className="h-10 w-10 rounded-full inline-flex items-center justify-center border border-[#DBCAB9] text-[#8C7A6B] hover:bg-[#F5EFEA] active:scale-95 transition-all shrink-0">
+              <X className="w-4 h-4" weight="bold" />
             </button>
           ) : (
             <button onClick={handleAdd} className="bg-[#4A2521] text-white h-10 px-4 rounded-full inline-flex items-center justify-center gap-1.5 hover:bg-[#3A1D1A] active:scale-95 transition-all shrink-0">
@@ -254,19 +253,21 @@ export const HistoryScreen = () => {
                     {page.photo ? (
                       <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-active:scale-105" alt="" />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA]">
-                        <Plus className="w-5 h-5 text-[#DBCAB9]" weight="bold" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA] border-2 border-dashed border-[#DBCAB9] rounded-[16px]">
+                        <Plus className="w-5 h-5 text-[#431E1A]/40" weight="bold" />
                       </div>
                     )}
                   </m.div>
                 )
               })}
-            </div>
-            {/* Add Photo Button */}
-            <div className="flex justify-center pt-3 pb-1">
-              <button onClick={handleAdd} className="bg-[#F5EFEA] hover:bg-white text-[#1A1412] text-[13px] font-semibold px-6 py-3 rounded-[16px] shadow-[0_4px_14px_rgba(35,23,20,0.06)] flex items-center gap-2 transition active:scale-95">
-                <Plus className="w-4 h-4" weight="bold" /> Добавить фото
-              </button>
+              {/* Always-visible add tile */}
+              <m.div 
+                whileTap={{ scale: 0.97 }}
+                className="col-span-1 row-span-1 rounded-[16px] overflow-hidden relative cursor-pointer transition-all border-2 border-dashed border-[#DBCAB9] bg-[#F5EFEA] flex items-center justify-center"
+                onClick={handleAdd}
+              >
+                <Plus className="w-6 h-6 text-[#431E1A]/40" weight="bold" />
+              </m.div>
             </div>
           </m.div>
         )}
