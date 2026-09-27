@@ -243,9 +243,13 @@ export const HistoryScreen = () => {
                   return (
                     <React.Fragment key={page.id}>
                       {/* Module 1: Panoramic Photo */}
-                      <div className="col-span-3 aspect-[16/10] rounded-[24px] overflow-hidden bg-white shadow-[0_6px_20px_rgba(67,30,26,0.06)] relative cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-3 aspect-[16/10] rounded-[24px] overflow-hidden bg-white shadow-[0_6px_20px_rgba(67,30,26,0.06)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all relative cursor-pointer group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
                          {page.photo ? (
-                           <img src={page.photo} className="w-full h-full object-cover" alt="" />
+                           <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105" alt="" />
                          ) : (
                            <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA]">
                              <span className="text-[#8C7A6B] text-xs font-semibold px-4 py-2 bg-white rounded-full shadow-sm">+ Загрузить фото</span>
@@ -254,52 +258,72 @@ export const HistoryScreen = () => {
                          <div className="absolute top-3 right-3 bg-[#431E1A]/85 backdrop-blur-md text-white text-[10px] font-display font-bold px-3 py-1 rounded-full z-10">
                            {page.date || '24 СЕН'}
                          </div>
-                      </div>
+                      </m.div>
                       {/* Module 2: White Text Card */}
-                      <div className="col-span-2 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] flex flex-col justify-between text-left cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
-                         <div>
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-2 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all flex flex-col justify-between text-left cursor-pointer group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
+                         <div className="transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
                            <div className="text-[11px] font-medium text-[#8C7A6B]">Момент №1</div>
                            <h3 className="text-[17px] font-display font-bold text-[#1A1412] leading-tight mt-1">{page.title || 'Новая запись'}</h3>
                          </div>
                          <p className="text-[12px] text-[#6E5D53] leading-snug mt-1.5 line-clamp-2">{page.text || 'Нажмите, чтобы добавить описание к этому моменту...'}</p>
-                      </div>
+                      </m.div>
                       {/* Module 3: Chocolate Square */}
-                      <div className="col-span-1 bg-[#431E1A] text-white rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_6px_20px_rgba(67,30,26,0.12)]" onClick={() => setSelectedPageId(page.id)}>
-                         <div className="text-white/60 mt-1"><MapPin className="w-6 h-6" weight="fill" /></div>
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-1 bg-[#431E1A] text-white rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_6px_20px_rgba(67,30,26,0.12)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.15)] transition-all group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
+                         <div className="text-white/60 mt-1 transform transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 group-active:scale-110 group-active:-rotate-6"><MapPin className="w-6 h-6" weight="fill" /></div>
                          <div className="text-[14px] font-display font-bold leading-tight line-clamp-2 px-1 my-auto">{page.location || 'Патрики'}</div>
                          <div className="text-[10px] font-medium text-white/80">{page.date || '24 СЕН'}</div>
-                      </div>
+                      </m.div>
                     </React.Fragment>
                   )
                 } else {
                   return (
                     <React.Fragment key={page.id}>
                       {/* Module A: Milky Square */}
-                      <div className="col-span-1 bg-[#F5EFEA] border border-white/60 rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_4px_12px_rgba(67,30,26,0.03)]" onClick={() => setSelectedPageId(page.id)}>
-                         <div className="text-[#8C7A6B] mt-1"><MapPin className="w-6 h-6" weight="fill" /></div>
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-1 bg-[#F5EFEA] border border-white/60 rounded-[24px] p-3.5 flex flex-col items-center justify-between text-center cursor-pointer shadow-[0_4px_12px_rgba(67,30,26,0.03)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.08)] transition-all group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
+                         <div className="text-[#8C7A6B] mt-1 transform transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 group-active:scale-110 group-active:-rotate-6"><MapPin className="w-6 h-6" weight="fill" /></div>
                          <div className="text-[14px] font-display font-bold text-[#1A1412] leading-tight line-clamp-2 px-1 my-auto">{page.location || 'Парк Горького'}</div>
                          <div className="bg-[#431E1A] text-white text-[9px] font-display font-bold px-2.5 py-0.5 rounded-full">{page.date || 'ДАТА'}</div>
-                      </div>
+                      </m.div>
                       {/* Module B: Photo Tile */}
-                      <div className="col-span-2 aspect-[4/3] rounded-[24px] overflow-hidden bg-white shadow-[0_6px_20px_rgba(67,30,26,0.06)] relative cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-2 aspect-[4/3] rounded-[24px] overflow-hidden bg-white shadow-[0_6px_20px_rgba(67,30,26,0.06)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all relative cursor-pointer group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
                          {page.photo ? (
-                           <img src={page.photo} className="w-full h-full object-cover" alt="" />
+                           <img src={page.photo} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105" alt="" />
                          ) : (
                            <div className="absolute inset-0 flex items-center justify-center bg-[#F5EFEA]">
                              <span className="text-[#8C7A6B] text-xs font-semibold px-4 py-2 bg-white rounded-full shadow-sm">+ Загрузить фото</span>
                            </div>
                          )}
-                      </div>
+                      </m.div>
                       {/* Module C: White Wide Text Tile */}
-                      <div className="col-span-3 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] flex items-center justify-between gap-3 text-left cursor-pointer" onClick={() => setSelectedPageId(page.id)}>
-                         <div className="flex-grow">
+                      <m.div 
+                        whileHover={{ y: -2 }} whileTap={{ scale: 0.96 }}
+                        className="col-span-3 bg-white rounded-[24px] p-4 shadow-[0_6px_20px_rgba(67,30,26,0.05)] hover:shadow-[0_12px_30px_rgba(67,30,26,0.1)] transition-all flex items-center justify-between gap-3 text-left cursor-pointer group" 
+                        onClick={() => setSelectedPageId(page.id)}
+                      >
+                         <div className="flex-grow transform transition-transform duration-300 group-hover:translate-x-1 group-active:translate-x-1">
                            <h3 className="text-[15px] font-display font-bold text-[#1A1412]">{page.title || 'Новая запись'}</h3>
                            <p className="text-[12px] text-[#6E5D53] mt-0.5 line-clamp-1">{page.text || 'Нажмите, чтобы добавить описание...'}</p>
                          </div>
-                         <div className="w-8 h-8 rounded-full bg-[#F5EFEA] flex items-center justify-center text-[#431E1A] shrink-0">
+                         <div className="w-8 h-8 rounded-full bg-[#F5EFEA] flex items-center justify-center text-[#431E1A] shrink-0 transform transition-transform duration-300 group-hover:scale-110 group-active:scale-110">
                            <SlidersHorizontal className="w-4 h-4" />
                          </div>
-                      </div>
+                      </m.div>
                     </React.Fragment>
                   )
                 }
