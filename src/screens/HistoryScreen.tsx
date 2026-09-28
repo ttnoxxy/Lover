@@ -53,10 +53,6 @@ const lighten = (hex: string, pct: number) => {
   const f = (c: number) => Math.min(255, Math.round(c + (255 - c) * pct / 100))
   return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`
 }
-const pagesWord = (n: number) => {
-  const a = n % 10, b = n % 100
-  return a === 1 && b !== 11 ? 'страница' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'страницы' : 'страниц'
-}
 
 /* ---------- Круглая кнопка шапки ---------- */
 const Round = ({ children, onClick, active, dark, label }: { children: React.ReactNode; onClick?: () => void; active?: boolean; dark?: boolean; label: string }) => (
@@ -321,8 +317,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
   )
 
   const dark = isOpen
-  const fg = dark ? PAPER : '#1A1412'
-  const circle = 'w-12 h-12 rounded-full bg-white text-[#431E1A] shadow-[0_4px_14px_rgba(35,23,20,0.12)] flex items-center justify-center transition active:scale-95 disabled:opacity-50'
+    const circle = 'w-12 h-12 rounded-full bg-white text-[#431E1A] shadow-[0_4px_14px_rgba(35,23,20,0.12)] flex items-center justify-center transition active:scale-95 disabled:opacity-50'
 
   return (
     <div className="w-full flex-grow flex flex-col pt-2 relative overflow-hidden">
@@ -341,12 +336,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
             </>
           )}
         </div>
-        <div className="absolute inset-x-0 top-0 h-full flex flex-col items-center justify-center pointer-events-none">
-          <h1 className="text-[17px] font-semibold tracking-tight leading-none transition-colors duration-700" style={{ color: fg }}>{activeAlbum.title}</h1>
-          <span className="text-xs font-medium mt-1 transition-colors duration-700" style={{ color: dark ? 'rgba(245,237,230,.6)' : '#6E5D53' }}>
-            {pages.length} {pagesWord(pages.length)}
-          </span>
-        </div>
+        
       </div>
 
       {/* Основная область */}
@@ -402,7 +392,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
               </Swiper>
             </m.div>
           ) : view === 'spread' ? (
-            <m.div key="book" className="absolute inset-0 flex items-center justify-center" style={{ containerType: 'size', padding: 14 }}
+            <m.div key="book" className="absolute inset-0 flex items-center justify-center" style={{ containerType: 'size', padding: 4 }}
               initial={{ opacity: 0, scale: 0.88, y: 24 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.92 }} transition={{ type: 'spring', stiffness: 160, damping: 22 }}>
               <BookSpread total={total} spread={spread} onChange={setSpread} renderPage={renderPage} />
             </m.div>
@@ -486,5 +476,6 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
     </div>
   )
 }
+
 
 
