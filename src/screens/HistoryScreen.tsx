@@ -237,7 +237,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
   const [albums, setAlbums] = useState<Album[]>(INITIAL_ALBUMS)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isOpen, setIsOpen] = useState(false)
-  const [view, setView] = useState<'spread' | 'grid'>('spread')
+  const [view, setView] = useState<'spread' | 'grid'>('grid')
   const [spread, setSpread] = useState(0)
   const [focus, setFocus] = useState(0)
   const [isEditingCover, setIsEditingCover] = useState(false)
@@ -269,7 +269,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
   const updateAlbum = (id: string, patch: Partial<Album>) => setAlbums(as => as.map(a => (a.id === id ? { ...a, ...patch } : a)))
   const patchPage = (i: number, patch: Partial<PageData>) =>
     updateAlbum(activeAlbum.id, { pages: pages.map((pg, k) => (k === i ? { ...pg, ...patch } : pg)) })
-  const openBook = () => { setSpread(0); setFocus(0); setView('spread'); setIsOpen(true); haptic('medium') }
+  const openBook = () => { setIsOpen(true); haptic('medium') }
 
   const handleAdd = () => {
     const id = Date.now().toString()
@@ -388,7 +388,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
           ) : (
             <m.div key="grid" className="absolute inset-0 overflow-y-auto grid grid-cols-2 gap-3 p-4 content-start" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               {pages.map((pg, i) => (
-                <button key={pg.id} onClick={() => { setSpread(i); setView('spread') }} className="aspect-[4/3] relative overflow-hidden" style={{ background: PAPER, borderRadius: 5, boxShadow: '0 6px 12px rgba(0,0,0,.4)' }}>
+                <button key={pg.id} onClick={() => {}} className="aspect-[4/3] relative overflow-hidden" style={{ background: PAPER, borderRadius: 5, boxShadow: '0 6px 12px rgba(0,0,0,.4)' }}>
                   {pg.photo ? <img src={pg.photo} alt="" className="w-full h-full object-cover" /> : <Camera className="w-6 h-6 m-auto text-[#8C7A6B]" weight="fill" />}
                   <span className="absolute bottom-1 right-2" style={{ fontFamily: MONO, fontSize: 10, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,.6)' }}>{i + 1}</span>
                 </button>
