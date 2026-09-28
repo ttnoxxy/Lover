@@ -8,7 +8,7 @@ import type { ReactSketchCanvasRef } from 'react-sketch-canvas'
 import * as Popover from '@radix-ui/react-popover'
 import { m, AnimatePresence, animate, useMotionValue, useTransform } from 'framer-motion'
 import WebApp from '@twa-dev/sdk'
-import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus } from '@phosphor-icons/react'
+import { Camera, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus } from '@phosphor-icons/react'
 
 /* Шрифты подключите в index.html:
    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=IBM+Plex+Mono&display=swap" rel="stylesheet"> */
@@ -328,7 +328,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
       <div className="flex items-center justify-between px-4 mb-4 relative z-20 shrink-0 h-11 w-full">
         <div className="flex gap-2">
           {!isOpen ? (
-            <Round label="Библиотека"><Books className="w-5 h-5" weight="fill" /></Round>
+            null
           ) : (
             <>
               <Round label="Разворот" active dark onClick={() => setView('spread')}><BookOpen className="w-5 h-5" weight="fill" /></Round>
@@ -476,6 +476,8 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
     </div>
   )
 }
+
+
 
 
 
