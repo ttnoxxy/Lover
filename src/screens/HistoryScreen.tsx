@@ -16,25 +16,19 @@ import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, Sha
 
 const INITIAL_ALBUMS = [
   {
-    id: '1', title: 'Отпуск 2026', coverColor: '#431E1A',
+    id: '1', title: 'ОТПУСК 2026', coverColor: '#431E1A',
     pages: [
-      { id: 'p1', photo: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop', date: '24 сентября', title: 'Вечерняя прогулка у воды', text: 'Взяли самый вкусный раф и гуляли до ночи.' },
-      { id: 'p2', photo: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop', date: '25 сентября', title: 'Уютное утро', text: 'Завтрак с видом на старый город и красивые улицы.' }
+      { id: 'pg1', photos: [{ id: 'ph1', url: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop', caption: 'Вечерняя прогулка у воды', locationDate: '24 СЕНТ · КОФЕЙНЯ', x: 0, y: 0, rotation: -2, scale: 1 }] },
+      { id: 'pg2', photos: [{ id: 'ph2', url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop', caption: 'Уютное утро с видом на город', locationDate: '25 СЕНТ · ГОРОД', x: 0, y: 0, rotation: 1, scale: 1 }] },
+      { id: 'pg3', photos: [] },
+      { id: 'pg4', photos: [] }
     ]
   },
   {
-    id: '2', title: 'Осень вдвоём', coverColor: '#B07D56',
-    pages: [
-      { id: 'p1', photo: '', date: '12 октября', title: 'Парк', text: 'Собрали букет из желтых листьев.' }
-    ]
-  },
-  {
-    id: '3', title: 'Наше начало', coverColor: '#5F6F52',
-    pages: [
-      { id: 'p1', photo: '', date: '1 сентября', title: 'Знакомство', text: 'День, когда всё изменилось.' }
-    ]
+    id: '2', title: 'ОСЕНЬ 2026', coverColor: '#B07D56',
+    pages: [{ id: 'pg1', photos: [] }, { id: 'pg2', photos: [] }]
   }
-]
+];
 
 const AVAILABLE_COLORS = ['#431E1A', '#A44A3F', '#5F6F52', '#B07D56', '#C2B078']
 const BRUSH_COLORS = ['#FAF5EF', '#E5B869', '#E07A5F', '#F2D0C9', '#231714']
@@ -358,3 +352,4 @@ export const HistoryScreen = () => {
     </div>
   )
 }
+
