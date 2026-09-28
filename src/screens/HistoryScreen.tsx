@@ -53,11 +53,9 @@ const getEmboss = (hex: string) => {
   const r = n >> 16, g = (n >> 8) & 255, b = n & 255;
   const luma = 0.299 * r + 0.587 * g + 0.114 * b;
   const isLight = luma > 130;
-  const pct = isLight ? -45 : 25;
-  const f = (c: number) => Math.min(255, Math.max(0, Math.round(c + (pct > 0 ? (255 - c) : c) * pct / 100)));
   return {
-    color: `rgb(${f(r)},${f(g)},${f(b)})`,
-    textShadow: isLight ? '0 1px 0 rgba(255,255,255,0.45)' : '0 1px 0 rgba(0,0,0,0.35)'
+    color: isLight ? '#3D2622' : '#F5EDE6',
+    textShadow: isLight ? '0 1px 0 rgba(255,255,255,0.6)' : '0 1px 2px rgba(0,0,0,0.4)'
   };
 }
 
@@ -358,7 +356,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
                       >
                         <div className="w-[10%] h-full bg-black/20 border-r border-white/10 shadow-[inset_-2px_0_4px_rgba(0,0,0,0.25)] shrink-0" />
                         <div className="absolute inset-x-0 bottom-[14%] px-4 text-center">
-                          <h2 className="text-[12px] uppercase tracking-[0.14em] font-medium" style={getEmboss(album.coverColor)}>{album.title}</h2>
+                          <h2 className="text-[13px] uppercase tracking-[0.12em] font-display font-bold" style={getEmboss(album.coverColor)}>{album.title}</h2>
                         </div>
                         <div className={`absolute inset-0 z-10 ${isEditingCover && isActive ? 'pointer-events-auto' : 'pointer-events-none'}`}>
                           <ReactSketchCanvas ref={isActive ? canvasRef : null} strokeWidth={strokeWidth} strokeColor={strokeColor} canvasColor="transparent" style={{ border: 'none' }} />
