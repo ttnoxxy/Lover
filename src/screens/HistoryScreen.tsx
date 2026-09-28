@@ -353,7 +353,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
                 className="w-full overflow-visible py-8"
               >
                 {albums.map((album, idx) => (
-                  <SwiperSlide key={album.id} style={{ width: '68vw', aspectRatio: '3/4', height: 'auto' }}>
+                  <SwiperSlide key={album.id} style={{ width: '82vw', aspectRatio: '3/4', height: 'auto' }}>
                     {({ isActive }: { isActive: boolean }) => (
                       <div
                         className="w-full h-full rounded-l-[4px] rounded-r-[14px] relative overflow-hidden flex select-none transition-all duration-300 origin-bottom"
