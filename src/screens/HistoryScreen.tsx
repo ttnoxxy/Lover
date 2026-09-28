@@ -69,32 +69,31 @@ const Round = ({ children, onClick, active, dark, label }: { children: React.Rea
 
 /* ---------- Страница-лист с фото-отпечатком ---------- */
 type SheetProps = {
-  page: PageData | null; idx: number; side: 'top' | 'bot'
+  page: PageData | null; idx: number;
   onPhoto: (file: File) => void; onPatch: (patch: Partial<PageData>) => void; onFocus: (i: number) => void
 }
 
-const Sheet = ({ page, idx, side, onPhoto, onPatch, onFocus }: SheetProps) => {
+const Sheet = ({ page, idx, onPhoto, onPatch, onFocus }: SheetProps) => {
   const [editing, setEditing] = useState(false)
   const rot = TILTS[idx % TILTS.length]
-  const fold = side === 'top' ? 'to top' : 'to bottom'
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ background: PAPER, backgroundImage: NOISE }} onPointerDown={() => onFocus(idx)}>
-      <div className="absolute inset-x-0 h-10 pointer-events-none" style={{ [side === 'top' ? 'bottom' : 'top']: 0, background: `linear-gradient(${fold}, rgba(60,30,20,.16), transparent)` }} />
+      <div className="absolute inset-y-0 left-0 w-8 pointer-events-none" style={{ background: `linear-gradient(to right, rgba(60,30,20,.12), transparent)` }} />
       {page ? (
         <div
           className="absolute left-1/2 top-1/2 flex flex-col bg-white"
-          style={{ width: '84%', height: '85%', padding: '8px 8px 0', borderRadius: 2, transform: `translate(-50%,-50%) rotate(${rot}deg)`, boxShadow: '0 4px 10px rgba(0,0,0,.28)' }}
+          style={{ width: '88%', height: '88%', padding: '10px 10px 0', borderRadius: 3, transform: `translate(-50%,-50%) rotate(${rot}deg)`, boxShadow: '0 6px 14px rgba(0,0,0,.28)' }}
         >
           <label className="flex-1 min-h-0 relative overflow-hidden cursor-pointer" style={{ background: '#EBE0D5' }}>
             {page.photo
               ? <img src={page.photo} alt="" className="w-full h-full object-cover" draggable={false} />
-              : <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-[#8C7A6B]"><Camera className="w-6 h-6" weight="fill" /><span className="text-xs">Добавить фото</span></span>}
+              : <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-[#8C7A6B]"><Camera className="w-8 h-8" weight="fill" /><span className="text-sm">Добавить фото</span></span>}
             <input type="file" accept="image/*" hidden onChange={e => { const f = e.target.files?.[0]; if (f) onPhoto(f); e.target.value = '' }} />
           </label>
           <div
-            className="h-10 shrink-0 flex flex-col items-center justify-center leading-none px-1"
+            className="h-16 shrink-0 flex flex-col items-center justify-center leading-none px-1"
             onClick={() => setEditing(true)}
-            onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setEditing(false) }}
+            onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget)) setEditing(false) }}
           >
             {editing ? (
               <>
@@ -102,29 +101,29 @@ const Sheet = ({ page, idx, side, onPhoto, onPatch, onFocus }: SheetProps) => {
                   autoFocus value={page.caption} placeholder="Подпись" maxLength={40}
                   onChange={e => onPatch({ caption: e.target.value })}
                   onKeyDown={e => e.key === 'Enter' && setEditing(false)}
-                  className="w-full text-center bg-transparent outline-none" style={{ fontFamily: HAND, fontSize: 18, color: INK }}
+                  className="w-full text-center bg-transparent outline-none" style={{ fontFamily: HAND, fontSize: 24, color: INK }}
                 />
                 <input
                   value={page.meta} placeholder="Дата · место" maxLength={40}
                   onChange={e => onPatch({ meta: e.target.value })}
                   onKeyDown={e => e.key === 'Enter' && setEditing(false)}
-                  className="w-full text-center bg-transparent outline-none uppercase mt-0.5" style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '.08em', color: '#8A6F64' }}
+                  className="w-full text-center bg-transparent outline-none uppercase mt-1" style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '.08em', color: '#8A6F64' }}
                 />
               </>
             ) : (
               <>
-                <span style={{ fontFamily: HAND, fontSize: 18, color: INK, opacity: page.caption ? 1 : 0.35 }}>{page.caption || 'Добавить подпись'}</span>
-                {page.meta && <span className="uppercase mt-0.5" style={{ fontFamily: MONO, fontSize: 9, letterSpacing: '.08em', color: '#8A6F64' }}>{page.meta}</span>}
+                <span style={{ fontFamily: HAND, fontSize: 24, color: INK, opacity: page.caption ? 1 : 0.35 }}>{page.caption || 'Добавить подпись'}</span>
+                {page.meta && <span className="uppercase mt-1" style={{ fontFamily: MONO, fontSize: 10, letterSpacing: '.08em', color: '#8A6F64' }}>{page.meta}</span>}
               </>
             )}
           </div>
         </div>
       ) : (
         <div className="absolute inset-[8%] rounded-sm border border-dashed border-[#B39A8C] flex items-center justify-center text-center text-xs text-[#8A6F64] px-6">
-          Нажмите «+», чтобы добавить страницу
+          Нажмите «+», чтобы добавить фото
         </div>
       )}
-      <span className={`absolute bottom-1 ${side === 'top' ? 'left-3' : 'right-3'}`} style={{ fontFamily: MONO, fontSize: 10, color: '#B39A8C' }}>{idx + 1}</span>
+      <span className="absolute bottom-3 right-4" style={{ fontFamily: MONO, fontSize: 12, color: '#B39A8C' }}>{idx + 1}</span>
     </div>
   )
 }
@@ -132,29 +131,20 @@ const Sheet = ({ page, idx, side, onPhoto, onPatch, onFocus }: SheetProps) => {
 /* ---------- Вертикальный разворот с переплётом посередине ---------- */
 type Dir = 'next' | 'prev'
 
-const Half = ({ pos, children, shade }: { pos: 'top' | 'bot'; children: React.ReactNode; shade?: any }) => (
-  <div className="absolute inset-x-0 h-1/2 overflow-hidden" style={{ [pos === 'top' ? 'top' : 'bottom']: 0, borderRadius: pos === 'top' ? '5px 5px 0 0' : '0 0 5px 5px' }}>
-    {children}
-    {shade && <m.div className="absolute inset-0 pointer-events-none" style={{ background: '#000', opacity: shade }} />}
-  </div>
-)
-
-const BookSpread = ({ total, spread, onChange, renderPage }: {
-  total: number; spread: number; onChange: (s: number) => void; renderPage: (i: number, side: 'top' | 'bot') => React.ReactNode
+const FlatBook = ({ total, spread, onChange, renderPage }: {
+  total: number; spread: number; onChange: (s: number) => void; renderPage: (i: number) => React.ReactNode
 }) => {
   const [dir, setDir] = useState<Dir | null>(null)
   const dirRef = useRef<Dir | null>(null)
   const p = useMotionValue(0)
-  const angle = useTransform(p, v => (dirRef.current === 'prev' ? -v * 180 : v * 180))
-  const shade = useTransform(p, v => Math.sin(v * Math.PI) * 0.35)
   const box = useRef<HTMLDivElement>(null)
-  const start = useRef<{ y: number; t: number } | null>(null)
+  const start = useRef<{ x: number; t: number } | null>(null)
 
   useLayoutEffect(() => { if (!dir) p.set(0) }, [dir, spread, p])
 
   const settle = (d: Dir, commit: boolean) => {
     animate(p, commit ? 1 : 0, {
-      type: 'spring', stiffness: 170, damping: 26,
+      type: 'spring', stiffness: 220, damping: 28,
       onComplete: () => {
         if (commit) { onChange(spread + (d === 'next' ? 1 : -1)); haptic('light') }
         dirRef.current = null; setDir(null)
@@ -179,70 +169,64 @@ const BookSpread = ({ total, spread, onChange, renderPage }: {
   }, [])
 
   const down = (e: React.PointerEvent) => {
-    if (dirRef.current || (e.target as HTMLElement).closest('input')) return
-    start.current = { y: e.clientY, t: performance.now() }
+    if (dirRef.current || (e.target as HTMLElement)?.closest?.('input')) return
+    start.current = { x: e.clientX, t: performance.now() }
   }
   const move = (e: React.PointerEvent) => {
     if (!start.current) return
-    const dy = e.clientY - start.current.y
+    const dx = e.clientX - start.current.x
     if (!dirRef.current) {
-      if (Math.abs(dy) < 10) return
-      const d: Dir = dy < 0 ? 'next' : 'prev'
+      if (Math.abs(dx) < 10) return
+      const d: Dir = dx < 0 ? 'next' : 'prev'
       if (!canGo(d)) { start.current = null; return }
       dirRef.current = d; setDir(d); box.current?.setPointerCapture(e.pointerId)
     }
-    const h = (box.current?.clientHeight ?? 400) / 2
+    const w = (box.current?.clientWidth ?? 300)
     const sign = dirRef.current === 'next' ? -1 : 1
-    p.set(Math.min(1, Math.max(0, (sign * dy) / (h * 0.9))))
+    p.set(Math.min(1, Math.max(0, (sign * dx) / w)))
   }
   const end = (e: React.PointerEvent) => {
     const d = dirRef.current
     if (!start.current || !d) { start.current = null; return }
-    const dy = e.clientY - start.current.y
-    const speed = Math.abs(dy) / Math.max(1, performance.now() - start.current.t)
+    const dx = e.clientX - start.current.x
+    const speed = Math.abs(dx) / Math.max(1, performance.now() - start.current.t)
     start.current = null
-    settle(d, p.get() > 0.3 || speed > 0.5)
+    settle(d, p.get() > 0.25 || speed > 0.4)
   }
 
-  const top = spread * 2, bot = top + 1
-  const next = dir === 'next'
-  const topShown = dir ? (next ? top : top - 2) : top
-  const botShown = dir ? (next ? top + 3 : bot) : bot
+  const leftVal = useTransform(p, v => (dirRef.current === 'next' ? 14 * (1 - v) : (dirRef.current === 'prev' ? 14 * v : 14)) + '%')
+  const shadeVal = useTransform(p, v => (dirRef.current === 'next' ? 0.3 * (1 - v) : (dirRef.current === 'prev' ? 0.3 * v : 0.3)))
+  const rotVal = useTransform(p, v => (dirRef.current === 'next' ? -v * 180 : (dirRef.current === 'prev' ? -180 + v * 180 : 0)))
+
+  const slidingIdx = dir === 'next' ? spread + 1 : (dir === 'prev' ? spread : spread + 1)
+  const flippingIdx = dir === 'next' ? spread : (dir === 'prev' ? spread - 1 : spread)
 
   return (
-    <div
-      ref={box}
-      className="relative"
-      style={{
-        width: 'min(100cqw, 66.6cqh)', aspectRatio: '2 / 3', perspective: 1400, touchAction: 'none', borderRadius: 5,
-        boxShadow: '1.5px 1.5px 0 #E4D8CC, 3px 3px 0 #D2C3B5, 4.5px 4.5px 0 #E4D8CC, 0 18px 28px rgba(0,0,0,.45), 0 2px 4px rgba(0,0,0,.3)'
-      }}
-      onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end}
-    >
-      <Half pos="top" shade={dir === 'prev' ? shade : undefined}>{renderPage(topShown, 'top')}</Half>
-      <Half pos="bot" shade={dir === 'next' ? shade : undefined}>{renderPage(botShown, 'bot')}</Half>
+    <div ref={box} className="relative w-full h-full" style={{ perspective: 1800, touchAction: 'none' }} onPointerDown={down} onPointerMove={move} onPointerUp={end} onPointerCancel={end}>
+      <div className="absolute inset-y-0 left-0" style={{ width: '86%', background: '#EAE6DF', borderRadius: '4px 8px 8px 4px' }} />
 
-      {dir && (
+      {slidingIdx < total && (
         <m.div
-          className="absolute inset-x-0 h-1/2"
-          style={{ [next ? 'bottom' : 'top']: 0, transformOrigin: next ? 'top' : 'bottom', transformStyle: 'preserve-3d', rotateX: angle, zIndex: 5 }}
+          className="absolute inset-y-0 shadow-lg overflow-hidden"
+          style={{ width: '86%', left: leftVal, borderRadius: '4px 8px 8px 4px', zIndex: 1 }}
+          onClick={() => { if (!dir && slidingIdx === spread + 1) flip('next') }}
         >
-          <div className="absolute inset-0 overflow-hidden" style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}>
-            {next ? renderPage(bot, 'bot') : renderPage(top, 'top')}
-          </div>
-          <div className="absolute inset-0 overflow-hidden" style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateX(180deg)' }}>
-            {next ? renderPage(top + 2, 'top') : renderPage(top - 1, 'bot')}
-          </div>
+          {renderPage(slidingIdx)}
+          <m.div className="absolute inset-0 bg-black pointer-events-none" style={{ opacity: shadeVal }} />
         </m.div>
       )}
 
-      {/* сгиб и прошивка */}
-      <div className="absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 pointer-events-none" style={{ zIndex: 4, background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,.28) 50%, transparent)' }} />
-      <div className="absolute top-1/2 h-px pointer-events-none" style={{ left: '8%', right: '8%', zIndex: 4, background: 'repeating-linear-gradient(90deg, rgba(0,0,0,.35) 0 10px, transparent 10px 18px)' }} />
+      {flippingIdx >= 0 && flippingIdx < total && (
+        <m.div
+          className="absolute inset-y-0 shadow-2xl overflow-hidden origin-left"
+          style={{ width: '86%', left: 0, rotateY: rotVal, borderRadius: '4px 8px 8px 4px', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', zIndex: 2 }}
+        >
+          {renderPage(flippingIdx)}
+        </m.div>
+      )}
     </div>
   )
 }
-
 /* ---------- Экран ---------- */
 export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: boolean) => void }) => {
   const [albums, setAlbums] = useState<Album[]>(INITIAL_ALBUMS)
@@ -259,7 +243,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
 
   const activeAlbum = albums[activeIndex] || albums[0]
   const pages = activeAlbum.pages
-  const total = Math.max(1, Math.ceil(pages.length / 2))
+  const total = pages.length
 
   useEffect(() => { tgCall(a => { a.expand?.(); a.disableVerticalSwipes?.() }) }, [])
   useEffect(() => { onBookOpenChange?.(isOpen) }, [isOpen, onBookOpenChange])
@@ -289,7 +273,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
       setActiveIndex(albums.length)
     } else {
       updateAlbum(activeAlbum.id, { pages: [...pages, { id, photo: '', caption: '', meta: '' }] })
-      setSpread(Math.floor(pages.length / 2))
+      setSpread(pages.length)
     }
   }
 
@@ -302,15 +286,15 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
     } else {
       const at = focus < pages.length ? focus : pages.length - 1
       updateAlbum(activeAlbum.id, { pages: pages.filter((_, k) => k !== at) })
-      setSpread(s => Math.min(s, Math.ceil((pages.length - 1) / 2) - 1))
+      setSpread(s => Math.min(s, pages.length - 2))
       setFocus(0)
     }
     haptic('medium'); tgCall(a => a.HapticFeedback?.notificationOccurred('warning'))
   }
 
-  const renderPage = (i: number, side: 'top' | 'bot') => (
+  const renderPage = (i: number) => (
     <Sheet
-      page={pages[i] ?? null} idx={i} side={side} onFocus={setFocus}
+      page={pages[i] ?? null} idx={i} onFocus={setFocus}
       onPhoto={f => patchPage(i, { photo: URL.createObjectURL(f) })}
       onPatch={patch => patchPage(i, patch)}
     />
@@ -392,14 +376,14 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
               </Swiper>
             </m.div>
           ) : view === 'spread' ? (
-            <m.div key="book" className="absolute inset-0 flex items-center justify-center" style={{ containerType: 'size', padding: 4 }}
+            <m.div key="book" className="absolute inset-0" style={{ padding: '8px 16px' }}
               initial={{ opacity: 0, scale: 0.88, y: 24 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.92 }} transition={{ type: 'spring', stiffness: 160, damping: 22 }}>
-              <BookSpread total={total} spread={spread} onChange={setSpread} renderPage={renderPage} />
+              <FlatBook total={total} spread={spread} onChange={setSpread} renderPage={renderPage} />
             </m.div>
           ) : (
             <m.div key="grid" className="absolute inset-0 overflow-y-auto grid grid-cols-2 gap-3 p-4 content-start" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               {pages.map((pg, i) => (
-                <button key={pg.id} onClick={() => { setSpread(i >> 1); setView('spread') }} className="aspect-[4/3] relative overflow-hidden" style={{ background: PAPER, borderRadius: 5, boxShadow: '0 6px 12px rgba(0,0,0,.4)' }}>
+                <button key={pg.id} onClick={() => { setSpread(i); setView('spread') }} className="aspect-[4/3] relative overflow-hidden" style={{ background: PAPER, borderRadius: 5, boxShadow: '0 6px 12px rgba(0,0,0,.4)' }}>
                   {pg.photo ? <img src={pg.photo} alt="" className="w-full h-full object-cover" /> : <Camera className="w-6 h-6 m-auto text-[#8C7A6B]" weight="fill" />}
                   <span className="absolute bottom-1 right-2" style={{ fontFamily: MONO, fontSize: 10, color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,.6)' }}>{i + 1}</span>
                 </button>
@@ -411,7 +395,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
 
       {isOpen && view === 'spread' && (
         <div className="text-center relative z-10 shrink-0 pb-1" style={{ fontFamily: MONO, fontSize: 11, color: 'rgba(245,237,230,.6)' }}>
-          {2 * spread + 1}–{Math.min(pages.length, 2 * spread + 2)} / {pages.length}
+          {spread + 1} / {pages.length}
         </div>
       )}
 
@@ -476,6 +460,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
     </div>
   )
 }
+
 
 
 
