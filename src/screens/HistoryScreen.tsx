@@ -337,7 +337,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
                 className="w-full overflow-visible py-8"
               >
                 {albums.map((album, idx) => (
-                  <SwiperSlide key={album.id} style={{ width: '82vw', aspectRatio: '3/4', height: 'auto' }}>
+                  <SwiperSlide key={album.id} style={{ width: 'min(82vw, 50vh)', aspectRatio: '3/4', height: 'auto' }}>
                     {({ isActive }: { isActive: boolean }) => (
                       <div
                         className="w-full h-full rounded-l-[4px] rounded-r-[14px] relative overflow-hidden flex select-none transition-all duration-300 origin-bottom"
@@ -376,7 +376,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
               </Swiper>
             </m.div>
           ) : view === 'spread' ? (
-            <m.div key="book" className="absolute inset-0" style={{ padding: '8px 16px' }}
+            <m.div key="book" className="absolute inset-y-0 inset-x-4 mx-auto max-w-[65vh]" style={{ padding: '8px 0' }}
               initial={{ opacity: 0, scale: 0.88, y: 24 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.92 }} transition={{ type: 'spring', stiffness: 160, damping: 22 }}>
               <FlatBook total={total} spread={spread} onChange={setSpread} renderPage={renderPage} />
             </m.div>
@@ -460,6 +460,7 @@ export const HistoryScreen = ({ onBookOpenChange }: { onBookOpenChange?: (open: 
     </div>
   )
 }
+
 
 
 
