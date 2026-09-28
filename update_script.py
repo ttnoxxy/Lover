@@ -5,19 +5,32 @@ with codecs.open('src/screens/HistoryScreen.tsx', 'r', 'utf-8') as f:
     content = f.read()
 
 # 1. Imports
-content = content.replace(
-    "import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus } from '@phosphor-icons/react'",
-    "import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, MagnifyingGlass, List } from '@phosphor-icons/react'"
-)
-content = content.replace(
-    "import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus } \nfrom '@phosphor-icons/react'",
-    "import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, MagnifyingGlass, List } \nfrom '@phosphor-icons/react'"
-)
+content = re.sub(r'import \{[^}]+\} from \'@phosphor-icons/react\'', "import { Camera, Books, BookOpen, SquaresFour, SlidersHorizontal, DotsThree, ShareNetwork, Trash, ArrowUUpLeft, Plus, MagnifyingGlass, List } from '@phosphor-icons/react'", content)
+content = content.replace("import { m, AnimatePresence } from 'framer-motion'", "import { m, AnimatePresence } from 'framer-motion'\nimport { VerticalBook } from '../components/Book/VerticalBook'")
 
-# 2. Add lightenHex function
-if 'function lightenHex' not in content:
-    lighten_func = """
-function lightenHex(hex: string, percent: number) {
+# 2. Albums data
+old_albums = r"const INITIAL_ALBUMS = \[\n.*?\]\n\nconst AVAILABLE_COLORS"
+new_albums = """const INITIAL_ALBUMS = [
+  {
+    id: '1', title: 'ОТПУСК 2026', coverColor: '#431E1A',
+    pages: [
+      { id: 'pg1', photos: [{ id: 'ph1', url: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600&auto=format&fit=crop', caption: 'Вечерняя прогулка у воды', locationDate: '24 СЕНТ · КОФЕЙНЯ', x: 0, y: 0, rotation: -2, scale: 1 }] },
+      { id: 'pg2', photos: [{ id: 'ph2', url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop', caption: 'Уютное утро с видом на город', locationDate: '25 СЕНТ · ГОРОД', x: 0, y: 0, rotation: 1, scale: 1 }] },
+      { id: 'pg3', photos: [] },
+      { id: 'pg4', photos: [] }
+    ]
+  },
+  {
+    id: '2', title: 'ОСЕНЬ 2026', coverColor: '#B07D56',
+    pages: [{ id: 'pg1', photos: [] }, { id: 'pg2', photos: [] }]
+  }
+]
+
+const AVAILABLE_COLORS"""
+content = re.sub(old_albums, new_albums, content, flags=re.DOTALL)
+
+# 3. Add lightenHex just before HistoryScreen
+lighten_func = """function lightenHex(hex: string, percent: number) {
   let num = parseInt(hex.replace('#',''),16),
   amt = Math.round(2.55 * percent),
   R = (num >> 16) + amt,
@@ -26,61 +39,22 @@ function lightenHex(hex: string, percent: number) {
   return '#' + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 + (B<255?B<1?0:B:255)*0x100 + (G<255?G<1?0:G:255)).toString(16).slice(1);
 }
 
-export const HistoryScreen = () => {
-"""
-    content = content.replace('export const HistoryScreen = () => {', lighten_func)
+export const HistoryScreen = () => {"""
+content = content.replace('export const HistoryScreen = () => {', lighten_func)
 
-# 3. Top Bar replacement
-topbar_regex = r'\{\/\* Top Bar \*\/\}.*?<div className="flex-grow flex flex-col justify-center items-center relative w-full">'
-new_topbar = """{/* Top Bar */}
-      <div className="flex items-center justify-between px-4 mb-4 relative z-20 shrink-0 h-11 w-full">
-         <div className="absolute left-4 flex gap-2">
-            {!isOpen ? (
-               <button className="w-11 h-11 rounded-full border border-[#8C7A6B]/40 text-[#1A1412] flex items-center justify-center bg-transparent">
-                 <Books className="w-5 h-5" weight="fill" />
-               </button>
-            ) : (
-               <>
-                 <button onClick={() => setIsOpen(false)} className="w-11 h-11 rounded-full bg-[#431E1A] text-white flex items-center justify-center shadow-sm transition hover:scale-105 active:scale-95">
-                   <BookOpen className="w-5 h-5" weight="fill" />
-                 </button>
-                 <button className="w-11 h-11 rounded-full border border-[#8C7A6B]/40 text-[#1A1412] flex items-center justify-center bg-transparent transition hover:scale-105 active:scale-95">
-                   <SquaresFour className="w-5 h-5" weight="fill" />
-                 </button>
-               </>
-            )}
-         </div>
-         <div className="w-full h-full flex flex-col items-center justify-center pointer-events-none">
-            <h1 className="text-[22px] font-bold text-[#1A1412] tracking-tight pointer-events-auto cursor-pointer hover:opacity-80 transition leading-none">
-              {activeAlbum.title}
-            </h1>
-            <span className="text-xs font-medium text-[#6E5D53] flex items-center justify-center gap-1.5 mt-0.5">
-              {activeAlbum.pages?.length || 0} страниц
-            </span>
-         </div>
-         <div className="absolute right-4 flex items-center gap-2">
-            {!isOpen && (
-              <>
-                <button className="w-11 h-11 rounded-full border border-[#8C7A6B]/40 text-[#1A1412] flex items-center justify-center bg-transparent">
-                  <MagnifyingGlass className="w-5 h-5" weight="bold" />
-                </button>
-                <button className="w-11 h-11 rounded-full border border-[#8C7A6B]/40 text-[#1A1412] flex items-center justify-center bg-transparent">
-                  <List className="w-5 h-5" weight="bold" />
-                </button>
-              </>
-            )}
-         </div>
-      </div>
+# 4. Remove 'Page' component entirely to fix TS1128
+page_regex = r'const Page = React\.forwardRef<HTMLDivElement, any>\(\(props, ref\) => \{.*?\}\)\n\n'
+content = re.sub(page_regex, '', content, flags=re.DOTALL)
 
-      {/* Main Area: Swiper OR Open Book */}
-      <div className="flex-grow flex flex-col justify-center items-center relative w-full">"""
-content = re.sub(topbar_regex, new_topbar, content, flags=re.DOTALL)
+# 5. Remove canvasRef and onFlip inside HistoryScreen
+content = re.sub(r'const canvasRef = useRef<ReactSketchCanvasRef>\(null\)\n', '', content)
+on_flip_regex = r'const onFlip = \(e: any\) => \{.*?(?=const updateAlbum =)const updateAlbum ='
+content = re.sub(r'const onFlip = \(e: any\) => \{[\s\S]*?\}\n\n', '', content)
 
-# 4. Swiper modifications
-swiper_regex = r'\{\/\* Main Area: Swiper OR Open Book \*\/\}.*?<\/Swiper>'
-# Wait, replacing the whole swiper section is safer
-new_swiper = """{/* Main Area: Swiper OR Open Book */}
-      <div className="flex-grow flex flex-col justify-center items-center relative w-full">
+# 6. Replace Main Area
+main_area_regex = r'\{\/\* Main Area: Swiper OR Open Book \*\/\}.*?\{\/\* Bottom Area \*\/\}'
+new_main_area = """{/* Main Area: Swiper OR Open Book */}
+      <div className="flex-grow flex flex-col justify-center items-center relative w-full overflow-hidden">
         {!isOpen ? (
           <div className="w-full relative py-6 overflow-visible">
             <Swiper
@@ -98,7 +72,7 @@ new_swiper = """{/* Main Area: Swiper OR Open Book */}
                 <SwiperSlide key={album.id} style={{ width: '68vw', aspectRatio: '3/4', height: 'auto' }}>
                   {({ isActive }: { isActive: boolean }) => (
                     <div 
-                      className="w-full h-full rounded-l-[6px] rounded-r-[22px] relative overflow-hidden flex select-none transition-all duration-300 origin-bottom"
+                      className="w-full h-full rounded-l-[6px] rounded-r-[22px] relative overflow-hidden flex select-none transition-all duration-300 origin-bottom cursor-pointer"
                       style={{ 
                         backgroundColor: album.coverColor,
                         filter: isActive ? 'none' : 'brightness(0.82)',
@@ -122,48 +96,38 @@ new_swiper = """{/* Main Area: Swiper OR Open Book */}
                           {album.title}
                         </h2>
                       </div>
-
-                      <div className={`absolute inset-0 z-10 ${!isEditingCover ? 'pointer-events-none' : 'pointer-events-auto'}`}>
-                         <ReactSketchCanvas
-                            ref={activeIndex === idx ? canvasRef : null}
-                            strokeWidth={strokeWidth}
-                            strokeColor={strokeColor}
-                            canvasColor="transparent"
-                            style={{ border: "none" }}
-                         />
-                      </div>
-
-                      <button 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (activeIndex === idx) setIsEditingCover(!isEditingCover);
-                        }}
-                        className="w-11 h-11 rounded-full bg-black/25 hover:bg-black/40 text-white flex items-center justify-center absolute top-3 right-3 z-20"
-                      >
-                        <SlidersHorizontal className="w-5 h-5" />
-                      </button>
-
-                      <AnimatePresence>
-                        {isEditingCover && activeIndex === idx && (
-                          <m.div 
-                            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
-                            className="absolute top-16 right-3 z-20 flex flex-col gap-2"
-                          >
-                            <button onClick={(e) => { e.stopPropagation(); canvasRef.current?.undo() }} className="w-9 h-9 rounded-full bg-black/20 text-white flex items-center justify-center backdrop-blur-md">
-                              <ArrowUUpLeft className="w-4 h-4" />
-                            </button>
-                            <button onClick={(e) => { e.stopPropagation(); canvasRef.current?.clearCanvas() }} className="w-9 h-9 rounded-full bg-black/20 text-white flex items-center justify-center backdrop-blur-md">
-                              <Trash className="w-4 h-4" />
-                            </button>
-                          </m.div>
-                        )}
-                      </AnimatePresence>
                     </div>
                   )}
                 </SwiperSlide>
               ))}
-            </Swiper>"""
-content = re.sub(swiper_regex, new_swiper, content, flags=re.DOTALL)
+            </Swiper>
+          </div>
+        ) : (
+          <VerticalBook 
+            pages={activeAlbum.pages as any}
+            onAddPhoto={(_pageId) => {
+               // stub
+            }}
+            onUpdatePhoto={(pageId, photoId, updates) => {
+               const newPages = activeAlbum.pages.map((p: any) => p.id === pageId ? {
+                  ...p, photos: p.photos.map((ph: any) => ph.id === photoId ? { ...ph, ...updates } : ph)
+               } : p);
+               updateAlbum(activeAlbum.id, { pages: newPages });
+            }}
+            onEmptyTap={(pageId) => {
+               // stub
+               const newPhoto = { id: Date.now().toString(), url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?q=80&w=600&auto=format&fit=crop', caption: '', locationDate: '', x: 0, y: 0, rotation: 0, scale: 1 };
+               const newPages = activeAlbum.pages.map((p: any) => p.id === pageId ? {
+                  ...p, photos: [...p.photos, newPhoto]
+               } : p);
+               updateAlbum(activeAlbum.id, { pages: newPages });
+            }}
+          />
+        )}
+      </div>
+
+      {/* Bottom Area */}"""
+content = re.sub(main_area_regex, new_main_area, content, flags=re.DOTALL)
 
 with codecs.open('src/screens/HistoryScreen.tsx', 'w', 'utf-8') as f:
     f.write(content)
