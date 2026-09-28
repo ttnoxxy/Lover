@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import WebApp from '@twa-dev/sdk'
-import { LazyMotion, domMax, m, AnimatePresence } from 'framer-motion'
+import { LazyMotion, domMax } from 'framer-motion'
 import { BottomNav } from './components/BottomNav'
 import { HomeScreen } from './screens/HomeScreen'
 import { HistoryScreen } from './screens/HistoryScreen'
@@ -60,19 +60,15 @@ export const App: React.FC = () => {
         >
           {/* Main Views */}
           <div className="flex-grow flex flex-col pb-6">
-            <AnimatePresence mode="wait">
-              {activeTab === 'главная' && (
-                <m.div key="home" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex-grow flex flex-col">
-                  <HomeScreen tgUser={tgUser} installedWidgets={installedWidgets} setInstalledWidgets={setInstalledWidgets} />
-                </m.div>
-              )}
+            <div className="relative flex-grow flex flex-col">
+              <div className={`absolute inset-0 flex flex-col transition-opacity duration-300 ${activeTab === 'главная' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'}`}>
+                <HomeScreen tgUser={tgUser} installedWidgets={installedWidgets} setInstalledWidgets={setInstalledWidgets} />
+              </div>
 
-              {activeTab === 'история' && (
-                <m.div key="history" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="flex-grow flex flex-col h-full">
-                  <HistoryScreen />
-                </m.div>
-              )}
-            </AnimatePresence>
+              <div className={`absolute inset-0 flex flex-col transition-opacity duration-300 ${activeTab === 'история' ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'}`}>
+                <HistoryScreen />
+              </div>
+            </div>
           </div>
 
           <BottomNav activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -83,3 +79,5 @@ export const App: React.FC = () => {
 }
 
 export default App
+
+
